@@ -259,7 +259,7 @@ In parallel, the implicit branch summarizes predictive scene-level context from 
 <p class="subtitle is-6">Demonstration-budget comparison on R2R-CE val-unseen.</p>
 <p class="is-size-7 has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
 Budgets subsample training episodes; baseline and FINE consume the identical subset and the same number of optimizer updates.
-Best within each budget block in <strong>bold</strong>.
+Within each baseline/FINE pair, the better value is in <strong>bold</strong>.
 </p>
 </div>
 </div>
@@ -281,9 +281,9 @@ Best within each budget block in <strong>bold</strong>.
 <td class="has-text-left method-cell">NaVILA</td>
 <td>5.20</td><td>61.6</td><td>54.0</td><td>49.0</td>
 </tr>
-<tr class="budget-group">
-<td class="has-text-left method-cell method-fine">+ FINE</td>
-<td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td>
+<tr class="budget-group ours-row">
+<td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
+<td><strong>5.00</strong></td><td><strong>63.1</strong></td><td><strong>55.6</strong></td><td><strong>50.7</strong></td>
 </tr>
 <tr class="budget-group">
 <td class="has-text-left method-cell">InternVLA-N1</td>
@@ -296,11 +296,11 @@ Best within each budget block in <strong>bold</strong>.
 <tr class="budget-group budget-sep">
 <td class="budget-cell" rowspan="4"><span class="budget-badge">70%</span></td>
 <td class="has-text-left method-cell">NaVILA</td>
-<td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td>
+<td>6.76</td><td>46.9</td><td>36.2</td><td>29.5</td>
 </tr>
-<tr class="budget-group">
-<td class="has-text-left method-cell method-fine">+ FINE</td>
-<td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td>
+<tr class="budget-group ours-row">
+<td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
+<td><strong>6.19</strong></td><td><strong>50.6</strong></td><td><strong>41.7</strong></td><td><strong>35.5</strong></td>
 </tr>
 <tr class="budget-group">
 <td class="has-text-left method-cell">InternVLA-N1</td>
@@ -308,16 +308,16 @@ Best within each budget block in <strong>bold</strong>.
 </tr>
 <tr class="budget-group ours-row">
 <td class="has-text-left method-cell method-fine"><strong>InternVLA-N1 + FINE</strong></td>
-<td><strong>5.82</strong></td><td><strong>51.4</strong></td><td><strong>45.3</strong></td><td><strong>40.2</strong></td>
+<td><strong>5.82</strong></td><td><strong>56.0</strong></td><td><strong>45.3</strong></td><td><strong>40.2</strong></td>
 </tr>
 <tr class="budget-group budget-sep">
 <td class="budget-cell" rowspan="4"><span class="budget-badge">30%</span></td>
 <td class="has-text-left method-cell">NaVILA</td>
 <td>9.00</td><td>15.1</td><td>7.50</td><td>5.20</td>
 </tr>
-<tr class="budget-group">
-<td class="has-text-left method-cell method-fine">+ FINE</td>
-<td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td><td class="todo-cell">—</td>
+<tr class="budget-group ours-row">
+<td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
+<td><strong>8.52</strong></td><td><strong>21.0</strong></td><td><strong>11.9</strong></td><td><strong>10.3</strong></td>
 </tr>
 <tr class="budget-group">
 <td class="has-text-left method-cell">InternVLA-N1</td>
