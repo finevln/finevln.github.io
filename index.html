@@ -174,13 +174,13 @@
 <h2 class="title is-3 has-text-centered">Why FINE?</h2>
 <div class="content has-text-justified">
 <p>
-          Standard VLM-based VLN training primarily maps observations and navigation history directly to actions or trajectories. This action-centric supervision underuses the structure already present in a trajectory: which landmarks will become important, how scene geometry changes, and how the agent progresses toward the goal.
+          VLN requires an embodied agent to follow natural-language instructions through unseen environments from egocentric observations. However, adapting these models to navigation remains expensive: every new route, viewpoint, and instruction requires sequential interaction with the environment. This makes the amount of information that can be extracted from each demonstration particularly important for data-efficient VLN.
         </p>
 <p>
-          This limitation is especially important in the low-data regime, where limited scene and route coverage makes it difficult to separate navigation-critical cues from incidental visual details. FINE extracts more supervision from each demonstration by learning future-aware representations at complementary landmark and navigation-state levels.
+          Most VLM-based VLN policies are optimized through <em>observation-to-action</em> prediction, mapping instructions and visual observations to discrete actions or continuous trajectories. Yet an embodied demonstration contains considerably richer supervision than the executed action alone: future observations reveal which landmark comes next, its appearance, and its 3D structure — information already contained in the demonstration that requires no additional annotation or interaction.
         </p>
 <p>
-          Across continuous VLN benchmarks and real-world robot navigation, FINE is designed to improve navigation success and path efficiency while allowing reduced-data models to approach the performance of substantially larger training sets.
+          Existing VLN methods exploit temporal context in two ways: one line summarizes what the agent has already observed, while another predicts future observations and uses those predictions during inference to evaluate candidate next moves. We take a different view: <strong>the future should serve as a teacher during training</strong>, rather than as an additional input or rollout mechanism at deployment.
         </p>
 </div>
 </div>
@@ -194,7 +194,7 @@
 <div class="columns is-centered has-text-centered">
 <div class="column is-full-width">
 <h2 class="title is-3">Overview</h2>
-<p class="subtitle is-6">FINE learns from future trajectory information during training to build explicit landmark-level and implicit scene-level navigation representations, without requiring future observations at inference.</p>
+<p class="subtitle is-6">Given the instruction, RGB history, and current observation, the object-aware encoder constructs ordered explicit landmark tokens and an implicit future-state token; the resulting representations condition the backbone's original action decoder, so FINE introduces no generative lookahead for action selection at deployment.</p>
 <figure class="overview-figure">
 <img alt="FINE method overview." class="overview-image" src="./static/images/overview.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
 <div class="overview-placeholder" style="display:none;">
@@ -214,7 +214,7 @@
 <h2 class="title is-3 has-text-centered">Explicit Landmark Modeling</h2>
 <div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
 <p>
-The explicit branch uses future observations during training to identify instruction-relevant landmarks and encode their semantic and geometric structure into dedicated landmark tokens. These tokens provide navigation-critical semantic-spatial anchors instead of treating all visible content equally.
+Navigation instructions typically describe a sequence of reference objects rather than a single goal — for example, an agent may be instructed to <em>pass the carton box</em>, then <em>head toward the blue table</em>, and finally <em>stop at the green plant</em>. FINE represents these instruction-relevant landmarks as <strong>ordered slots</strong>, so each representation captures both what landmark should be encountered and where it occurs along the instructed route. These landmark tokens are first grounded in the current observation and then trained to predict the semantic appearance and 3D geometric structure of their corresponding future landmark region.
 </p>
 </div>
 <figure class="component-figure">
@@ -236,7 +236,7 @@ The explicit branch uses future observations during training to identify instruc
 <h2 class="title is-3 has-text-centered">Implicit Navigation-State Modeling</h2>
 <div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
 <p>
-In parallel, the implicit branch summarizes predictive scene-level context from future navigation states, capturing latent world evolution and route progression beyond individual objects. This complements explicit landmark grounding with broader information about where the agent is heading.
+Ordered landmark prediction teaches the representation <em>what should appear next</em>, but reconstruction alone does not require the policy to distinguish the demonstrated future from another visually plausible outcome. FINE therefore introduces a complementary discriminative objective that asks: <strong>which future is consistent with the demonstrated route?</strong> The implicit future token is pulled toward the landmark state that the demonstrated trajectory actually reaches, while being pushed away from plausible same-scene counterfactual futures generated by a frozen video world model.
 </p>
 </div>
 <figure class="component-figure">
