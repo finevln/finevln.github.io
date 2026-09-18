@@ -174,13 +174,10 @@
 <h2 class="title is-3 has-text-centered">Why FINE?</h2>
 <div class="content has-text-justified">
 <p>
-          VLN requires an embodied agent to follow natural-language instructions through unseen environments from egocentric observations. However, adapting these models to navigation remains expensive: every new route, viewpoint, and instruction requires sequential interaction with the environment. This makes the amount of information that can be extracted from each demonstration particularly important for data-efficient VLN.
+          Adapting VLN policies to new environments is expensive: every new route and instruction requires an embodied demonstration. Most policies are trained through observation-to-action prediction alone, even though each demonstration already contains richer supervision — future observations reveal which landmark comes next, its appearance, and its 3D structure, with no extra annotation or interaction required.
         </p>
 <p>
-          Most VLM-based VLN policies are optimized through <em>observation-to-action</em> prediction, mapping instructions and visual observations to discrete actions or continuous trajectories. Yet an embodied demonstration contains considerably richer supervision than the executed action alone: future observations reveal which landmark comes next, its appearance, and its 3D structure — information already contained in the demonstration that requires no additional annotation or interaction.
-        </p>
-<p>
-          Existing VLN methods exploit temporal context in two ways: one line summarizes what the agent has already observed, while another predicts future observations and uses those predictions during inference to evaluate candidate next moves. We take a different view: <strong>the future should serve as a teacher during training</strong>, rather than as an additional input or rollout mechanism at deployment.
+          Prior work either summarizes what the agent has already seen, or predicts future observations for use during inference. FINE takes a different view: <strong>the future should serve as a teacher during training</strong>, rather than an extra input or rollout mechanism at deployment.
         </p>
 </div>
 </div>
@@ -194,7 +191,7 @@
 <div class="columns is-centered has-text-centered">
 <div class="column is-full-width">
 <h2 class="title is-3">Overview</h2>
-<p class="subtitle is-6">Given the instruction, RGB history, and current observation, the object-aware encoder constructs ordered explicit landmark tokens and an implicit future-state token; the resulting representations condition the backbone's original action decoder, so FINE introduces no generative lookahead for action selection at deployment.</p>
+<p class="subtitle is-6">Given the instruction and current observation, FINE builds ordered explicit landmark tokens and an implicit future-state token that condition the policy's action decoder — future supervision shapes training only, adding no extra computation at deployment.</p>
 <figure class="overview-figure">
 <img alt="FINE method overview." class="overview-image" src="./static/images/overview.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
 <div class="overview-placeholder" style="display:none;">
@@ -214,7 +211,7 @@
 <h2 class="title is-3 has-text-centered">Explicit Landmark Modeling</h2>
 <div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
 <p>
-Navigation instructions typically describe a sequence of reference objects rather than a single goal — for example, an agent may be instructed to <em>pass the carton box</em>, then <em>head toward the blue table</em>, and finally <em>stop at the green plant</em>. FINE represents these instruction-relevant landmarks as <strong>ordered slots</strong>, so each representation captures both what landmark should be encountered and where it occurs along the instructed route. These landmark tokens are first grounded in the current observation and then trained to predict the semantic appearance and 3D geometric structure of their corresponding future landmark region.
+Navigation instructions typically describe an ordered sequence of landmarks — for example, <em>pass the carton box</em>, then <em>head toward the blue table</em>, and stop at the green plant. FINE represents these landmarks as <strong>ordered tokens</strong> that capture both identity and route position, grounds them in the current observation, and trains them to predict the semantic appearance and 3D geometric structure of the corresponding future landmark region.
 </p>
 </div>
 <figure class="component-figure">
@@ -236,7 +233,7 @@ Navigation instructions typically describe a sequence of reference objects rathe
 <h2 class="title is-3 has-text-centered">Implicit Navigation-State Modeling</h2>
 <div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
 <p>
-Ordered landmark prediction teaches the representation <em>what should appear next</em>, but reconstruction alone does not require the policy to distinguish the demonstrated future from another visually plausible outcome. FINE therefore introduces a complementary discriminative objective that asks: <strong>which future is consistent with the demonstrated route?</strong> The implicit future token is pulled toward the landmark state that the demonstrated trajectory actually reaches, while being pushed away from plausible same-scene counterfactual futures generated by a frozen video world model.
+Predicting landmarks teaches the model <em>what should appear next</em>, but not <strong>which future actually matches the demonstrated route</strong>. FINE addresses this with a future token trained to recognize the landmark state the demonstration actually reaches, while distinguishing it from plausible same-scene alternatives generated by a video world model.
 </p>
 </div>
 <figure class="component-figure">
