@@ -569,6 +569,10 @@ body {
   font-family: 'Google Sans', sans-serif;
 }
 
+.publication-authors {
+  line-height: 1.7;
+}
+
 .publication-affiliations .author-block {
   margin-right: 0.85em;
 }
