@@ -387,6 +387,8 @@ body {
   color: #1e293b;
   font-size: 0.92rem;
   line-height: 1.45;
+  min-height: 7.25rem;
+  box-sizing: border-box;
 }
 
 .real-instruction-label {
