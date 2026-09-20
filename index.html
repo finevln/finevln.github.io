@@ -1,987 +1,1201 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
-<meta charset="utf-8"/>
-<meta content="FINE is a future-informed navigation encoding framework for data-efficient Vision-Language Navigation that learns from future trajectory information during training." name="description"/>
-<meta content="Vision-Based Navigation, Deep Learning for Visual Perception, Representation Learning, Imitation Learning, AI-Enabled Robotics" name="keywords"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>FINE: Future-Informed Navigation Encoding for Data-Efficient Vision-Language Navigation</title>
-<link href="./static/images/halloween.png" rel="icon" type="image/png"/>
-<!-- Global site tag (gtag.js) - Google Analytics -->
+  <meta charset="utf-8" />
+  <meta
+    content="FINE is a future-informed navigation encoding framework for data-efficient Vision-Language Navigation that learns from future trajectory information during training."
+    name="description" />
+  <meta
+    content="Vision-Based Navigation, Deep Learning for Visual Perception, Representation Learning, Imitation Learning, AI-Enabled Robotics"
+    name="keywords" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>FINE: Future-Informed Navigation Encoding for Data-Efficient Vision-Language Navigation</title>
+  <link href="./static/images/halloween.png" rel="icon" type="image/png" />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"/>
-<link href="./static/css/bulma.min.css" rel="stylesheet"/>
-<link href="./static/css/bulma-carousel.min.css" rel="stylesheet"/>
-<link href="./static/css/bulma-slider.min.css" rel="stylesheet"/>
-<link href="./static/css/fontawesome.all.min.css" rel="stylesheet"/>
-<link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" rel="stylesheet"/>
-<link href="./static/css/index.css" rel="stylesheet"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script defer="" src="./static/js/fontawesome.all.min.js"></script>
-<script src="./static/js/bulma-carousel.min.js"></script>
-<script src="./static/js/bulma-slider.min.js"></script>
-<script src="./static/js/index.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet" />
+  <link href="./static/css/bulma.min.css" rel="stylesheet" />
+  <link href="./static/css/bulma-carousel.min.css" rel="stylesheet" />
+  <link href="./static/css/bulma-slider.min.css" rel="stylesheet" />
+  <link href="./static/css/fontawesome.all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" rel="stylesheet" />
+  <link href="./static/css/index.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer="" src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
 </head>
+
 <body id="top">
-<nav aria-label="main navigation" class="navbar" role="navigation">
-<div class="navbar-brand">
-<a aria-expanded="false" aria-label="menu" class="navbar-burger" role="button">
-<span aria-hidden="true"></span>
-<span aria-hidden="true"></span>
-<span aria-hidden="true"></span>
-</a>
-</div>
-<div class="navbar-menu">
-<div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-<a aria-label="Home" class="navbar-item" href="#top">
-<span class="icon"><i class="fas fa-home"></i></span>
-</a>
-<div class="navbar-item has-dropdown is-hoverable">
-<a class="navbar-link">Project</a>
-<div class="navbar-dropdown">
-<a class="navbar-item" href="#project-video">Project Video</a>
-<a class="navbar-item" href="#abstract">Abstract</a>
-<a class="navbar-item" href="#why-fine">Why FINE</a>
-<a class="navbar-item" href="#overview">Overview</a>
-<a class="navbar-item" href="#explicit">Explicit</a>
-<a class="navbar-item" href="#implicit">Implicit</a>
-<a class="navbar-item" href="#main-results">Main Results</a>
-<a class="navbar-item" href="#benchmark">Benchmarks</a>
-<a class="navbar-item" href="#qualitative">Qualitative Results</a>
-<a class="navbar-item" href="#BibTeX">BibTeX</a>
-</div>
-</div>
-</div>
-</div>
-</nav>
+  <nav aria-label="main navigation" class="navbar" role="navigation">
+    <div class="navbar-brand">
+      <a aria-expanded="false" aria-label="menu" class="navbar-burger" role="button">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a aria-label="Home" class="navbar-item" href="#top">
+          <span class="icon"><i class="fas fa-home"></i></span>
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#project-video">Project Video</a>
+            <a class="navbar-item" href="#abstract">Abstract</a>
+            <a class="navbar-item" href="#why-fine">Why FINE</a>
+            <a class="navbar-item" href="#overview">Overview</a>
+            <a class="navbar-item" href="#explicit">Explicit</a>
+            <a class="navbar-item" href="#implicit">Implicit</a>
+            <a class="navbar-item" href="#main-results">Main Results</a>
+            <a class="navbar-item" href="#benchmark">Benchmarks</a>
+            <a class="navbar-item" href="#qualitative">Qualitative Results</a>
+            <a class="navbar-item" href="#BibTeX">BibTeX</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-<!-- 1. Header -->
-<section class="hero">
-<div class="hero-body">
-<div class="container is-max-desktop">
-<div class="columns is-centered">
-<div class="column has-text-centered">
-<h1 class="title is-1 publication-title">FINE: Future-Informed Navigation Encoding for Data-Efficient Vision-Language Navigation</h1>
-<div class="is-size-5 publication-authors">
-<span class="author-block">Khang H. Nguyen<sup>1,2,*,&dagger;</sup>,</span>
-<span class="author-block">Hoang Pham Quang Nguyen<sup>1,*</sup>,</span>
-<span class="author-block">Ha Phuong Nguyen<sup>1</sup>,</span>
-<span class="author-block">Khanh Dinh Binh<sup>1</sup>,</span>
-<span class="author-block">Xuan Ha Nguyen<sup>1</sup>,</span>
-<span class="author-block">Vien Ngo<sup>1,3</sup>,</span>
-<span class="author-block">Duy Ho Nguyen Minh<sup>4,5,6</sup>,</span>
-<span class="author-block">Huan Nguyen<sup>1,&ddagger;</sup>,</span>
-<span class="author-block">An T. Le<sup>1,3</sup></span>
-</div>
-<div class="is-size-5 publication-authors publication-affiliations" style="margin-top:1.875rem;">
-<span class="author-block"><sup>1</sup>Vinrobotics</span>
-<span class="author-block"><sup>2</sup>University of California, Los Angeles (UCLA)</span>
-<span class="author-block"><sup>3</sup>Center for AI Research, VinUniversity, Vietnam</span>
-<span class="author-block"><sup>4</sup>German Research Center for Artificial Intelligence (DFKI)</span>
-<span class="author-block"><sup>5</sup>University of Stuttgart</span>
-<span class="author-block"><sup>6</sup>Max Planck Research School for Intelligent Systems (IMPRS-IS)</span>
-</div>
-<div class="is-size-7 publication-authors publication-affiliations" style="margin-top:1rem;">
-<span class="author-block"><sup>*</sup>Equal contribution.</span>
-<span class="author-block"><sup>&dagger;</sup>This work was done while the author was at Vinrobotics.</span>
-<span class="author-block"><sup>&ddagger;</sup>Corresponding author.</span>
-</div>
-<div class="column has-text-centered">
-<div class="publication-links">
-<span class="link-block">
-<a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#" onclick="return false;" style="pointer-events:none; opacity:0.65;">
-<span class="icon"><i class="fas fa-file-pdf"></i></span>
-<span>Paper · Coming Soon</span>
-</a>
-</span>
-<span class="link-block">
-<a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#" onclick="return false;" style="pointer-events:none; opacity:0.65;">
-<span class="icon"><i class="ai ai-arxiv"></i></span>
-<span>arXiv · Coming Soon</span>
-</a>
-</span>
-<span class="link-block">
-<a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#" onclick="return false;" style="pointer-events:none; opacity:0.65;">
-<span class="icon"><i class="fab fa-youtube"></i></span>
-<span>Video · Coming Soon</span>
-</a>
-</span>
-<span class="link-block">
-<a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#" onclick="return false;" style="pointer-events:none; opacity:0.65;">
-<span class="icon"><i class="fab fa-github"></i></span>
-<span>Code · Coming Soon</span>
-</a>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+  <!-- 1. Header -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">FINE: Future-Informed Navigation Encoding for Data-Efficient
+              Vision-Language Navigation</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Khang H. Nguyen<sup>1,2,*,&dagger;</sup>,</span>
+              <span class="author-block">Hoang Pham Quang Nguyen<sup>1,*</sup>,</span>
+              <span class="author-block">Ha Phuong Nguyen<sup>1</sup>,</span>
+              <span class="author-block">Khanh Dinh Binh<sup>1</sup>,</span>
+              <span class="author-block">Xuan Ha Nguyen<sup>1</sup>,</span>
+              <span class="author-block">Vien Ngo<sup>1,3</sup>,</span>
+              <span class="author-block">Duy Ho Nguyen Minh<sup>4,5,6</sup>,</span>
+              <span class="author-block">Huan Nguyen<sup>1,&ddagger;</sup>,</span>
+              <span class="author-block">An T. Le<sup>1,3</sup></span>
+            </div>
+            <div class="is-size-5 publication-authors publication-affiliations" style="margin-top:1.875rem;">
+              <span class="author-block"><sup>1</sup>Vinrobotics</span>
+              <span class="author-block"><sup>2</sup>University of California, Los Angeles (UCLA)</span>
+              <span class="author-block"><sup>3</sup>Center for AI Research, VinUniversity, Vietnam</span>
+              <span class="author-block"><sup>4</sup>German Research Center for Artificial Intelligence (DFKI)</span>
+              <span class="author-block"><sup>5</sup>University of Stuttgart</span>
+              <span class="author-block"><sup>6</sup>Max Planck Research School for Intelligent Systems
+                (IMPRS-IS)</span>
+            </div>
+            <div class="is-size-7 publication-authors publication-affiliations" style="margin-top:1rem;">
+              <span class="author-block"><sup>*</sup>Equal contribution.</span>
+              <span class="author-block"><sup>&dagger;</sup>This work was done while the author was at
+                Vinrobotics.</span>
+              <span class="author-block"><sup>&ddagger;</sup>Corresponding author.</span>
+            </div>
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#"
+                    onclick="return false;" style="pointer-events:none; opacity:0.65;">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper · Coming Soon</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#"
+                    onclick="return false;" style="pointer-events:none; opacity:0.65;">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv · Coming Soon</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#"
+                    onclick="return false;" style="pointer-events:none; opacity:0.65;">
+                    <span class="icon"><i class="fab fa-youtube"></i></span>
+                    <span>Video · Coming Soon</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a aria-disabled="true" class="external-link button is-normal is-rounded is-dark" href="#"
+                    onclick="return false;" style="pointer-events:none; opacity:0.65;">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code · Coming Soon</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- 2. Project video -->
-<section class="section" id="project-video">
-<div class="container is-max-desktop">
-<div class="columns is-centered has-text-centered">
-<div class="column is-four-fifths">
-<h2 class="title is-3">Project Video</h2>
-<div class="publication-video">
-<div style="aspect-ratio:16 / 9; display:flex; align-items:center; justify-content:center; border-radius:10px; background:#f5f5f5; border:1px solid #e5e5e5;">
-<div class="has-text-centered">
-<span class="icon is-large"><i class="fab fa-youtube fa-2x"></i></span>
-<p class="title is-5" style="margin-top:0.5rem;">Video Coming Soon</p>
-<p class="is-size-6">The project demo will be added after release.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+  <!-- 2. Project video -->
+  <section class="section" id="project-video">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Project Video</h2>
+          <div class="publication-video">
+            <div
+              style="aspect-ratio:16 / 9; display:flex; align-items:center; justify-content:center; border-radius:10px; background:#f5f5f5; border:1px solid #e5e5e5;">
+              <div class="has-text-centered">
+                <span class="icon is-large"><i class="fab fa-youtube fa-2x"></i></span>
+                <p class="title is-5" style="margin-top:0.5rem;">Video Coming Soon</p>
+                <p class="is-size-6">The project demo will be added after release.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- 3. Abstract -->
-<section class="section" id="abstract">
-<div class="container is-max-desktop">
-<div class="columns is-centered has-text-centered">
-<div class="column is-four-fifths">
-<h2 class="title is-3">Abstract</h2>
-<div class="content has-text-justified">
-<p>
-          Adapting vision-language navigation (VLN) policies to new environments is expensive because every additional route and instruction requires an embodied demonstration. Yet standard observation-to-action training uses only a small fraction of the information already contained in each trajectory. In particular, future observations reveal the instruction-relevant landmarks that the agent will encounter, including what they look like and how they are arranged in 3D.
+  <!-- 3. Abstract -->
+  <section class="section" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Adapting vision-language navigation (VLN) policies to new environments is expensive because every
+              additional route and instruction requires an embodied demonstration. Yet standard observation-to-action
+              training uses only a small fraction of the information already contained in each trajectory. In
+              particular, future observations reveal the instruction-relevant landmarks that the agent will encounter,
+              including what they look like and how they are arranged in 3D.
+            </p>
+            <p>
+              We introduce <strong>FINE</strong>, a <strong>F</strong>uture-<strong>I</strong>nformed
+              <strong>N</strong>avigation <strong>E</strong>ncoding framework that extracts this latent supervision from
+              existing demonstrations. FINE equips a VLN backbone with two complementary auxiliary representations.
+              First, <em>explicit landmark tokens</em> follow the ordered landmarks specified by the instruction and are
+              trained to predict the future landmark region in both semantic 2D patch-feature space and
+              viewpoint-dependent 3D geometric feature space. Second, an <em>implicit future token</em> learns to
+              distinguish the landmark state that is actually reached from plausible same-scene counterfactual futures
+              generated by a video world model.
+            </p>
+            <p>
+              On R2R-CE and RxR-CE val-unseen, FINE improves InternVLA-N1 by 2.6 and 4.5 success-rate points,
+              respectively, at full training data. More importantly, as demonstrations become limited, the benefit
+              grows: at a 70% demonstration budget, FINE improves success rate by 6.8 points, recovering roughly
+              one-third of the performance lost by reducing the training demonstrations.
+            </p>
+            <p class="is-size-6" style="margin-top: 1rem;">
+              <strong>Index Terms—</strong>Vision-Based Navigation, Deep Learning for Visual Perception, Representation
+              Learning, Imitation Learning, AI-Enabled Robotics
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Why FINE -->
+  <section class="section" id="why-fine">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Why FINE?</h2>
+          <div class="content has-text-justified">
+            <p>
+              Adapting VLN policies to new environments is expensive: every new route and instruction requires an
+              embodied demonstration. Most policies are trained through observation-to-action prediction alone, even
+              though each demonstration already contains richer supervision — future observations reveal which landmark
+              comes next, its appearance, and its 3D structure, with no extra annotation or interaction required.
+            </p>
+            <p>
+              Prior work either summarizes what the agent has already seen, or predicts future observations for use
+              during inference. FINE takes a different view: <strong>the future should serve as a teacher during
+                training</strong>, rather than an extra input or rollout mechanism at deployment.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Overview image -->
+  <section class="section" id="overview">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Overview</h2>
+          <p class="subtitle is-6">Given the instruction and current observation, FINE builds ordered explicit landmark
+            tokens and an implicit future-state token that condition the policy's action decoder — future supervision
+            shapes training only, adding no extra computation at deployment.</p>
+          <figure class="overview-figure">
+            <img alt="FINE method overview." class="overview-image" src="./static/images/overview.png"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="overview-placeholder" style="display:none;">
+              <span>Overview figure coming soon<br /><small>Place file at
+                  <code>static/images/overview.png</code></small></span>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Explicit component -->
+  <section class="section" id="explicit">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Explicit Landmark Modeling</h2>
+          <div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
+            <p>
+              Navigation instructions typically describe an ordered sequence of landmarks — for example, <em>pass the
+                carton box</em>, then <em>head toward the blue table</em>, and stop at the green plant. FINE represents
+              these landmarks as <strong>ordered tokens</strong> that capture both identity and route position, grounds
+              them in the current observation, and trains them to predict the semantic appearance and 3D geometric
+              structure of the corresponding future landmark region.
+            </p>
+          </div>
+          <figure class="component-figure">
+            <img alt="Explicit landmark modeling component." class="component-image" src="./static/images/explicit.png"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="overview-placeholder" style="display:none;">
+              <span>Explicit component figure coming soon<br /><small>Place file at
+                  <code>static/images/explicit.png</code></small></span>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Implicit component -->
+  <section class="section" id="implicit">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Implicit Navigation-State Modeling</h2>
+          <div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
+            <p>
+              Predicting landmarks teaches the model <em>what should appear next</em>, but not <strong>which future
+                actually matches the demonstrated route</strong>. FINE addresses this with a future token trained to
+              recognize the landmark state the demonstration actually reaches, while distinguishing it from plausible
+              same-scene alternatives generated by a video world model.
+            </p>
+          </div>
+          <figure class="component-figure">
+            <img alt="Implicit navigation-state modeling component." class="component-image"
+              src="./static/images/implicit.png"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="overview-placeholder" style="display:none;">
+              <span>Implicit component figure coming soon<br /><small>Place file at
+                  <code>static/images/implicit.png</code></small></span>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Results -->
+  <section class="section" id="main-results">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Main Results</h2>
+          <p class="subtitle is-6">Demonstration-budget comparison on R2R-CE val-unseen.</p>
+          <p class="is-size-7 has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
+            Budgets subsample training episodes; baseline and FINE consume the identical subset and the same number of
+            optimizer updates.
+            Within each baseline/FINE pair, the better value is in <strong>bold</strong>.
+          </p>
+        </div>
+      </div>
+      <div class="table-container results-table-wrap">
+        <table class="table is-fullwidth has-text-centered results-table">
+          <thead>
+            <tr>
+              <th class="has-text-left">Budget</th>
+              <th class="has-text-left">Method</th>
+              <th>NE↓</th>
+              <th>OS↑</th>
+              <th>SR↑</th>
+              <th>SPL↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="budget-group">
+              <td class="budget-cell" rowspan="4"><span class="budget-badge">100%</span></td>
+              <td class="has-text-left method-cell">NaVILA</td>
+              <td>5.20</td>
+              <td>61.6</td>
+              <td>54.0</td>
+              <td>49.0</td>
+            </tr>
+            <tr class="budget-group ours-row">
+              <td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
+              <td><strong>5.00</strong></td>
+              <td><strong>63.1</strong></td>
+              <td><strong>55.6</strong></td>
+              <td><strong>50.7</strong></td>
+            </tr>
+            <tr class="budget-group">
+              <td class="has-text-left method-cell">InternVLA-N1</td>
+              <td>4.83</td>
+              <td>63.3</td>
+              <td>58.2</td>
+              <td>54.0</td>
+            </tr>
+            <tr class="budget-group ours-row">
+              <td class="has-text-left method-cell method-fine"><strong>InternVLA-N1 + FINE</strong></td>
+              <td><strong>4.29</strong></td>
+              <td><strong>65.7</strong></td>
+              <td><strong>60.8</strong></td>
+              <td><strong>55.2</strong></td>
+            </tr>
+            <tr class="budget-group budget-sep">
+              <td class="budget-cell" rowspan="4"><span class="budget-badge">70%</span></td>
+              <td class="has-text-left method-cell">NaVILA</td>
+              <td>6.76</td>
+              <td>46.9</td>
+              <td>36.2</td>
+              <td>29.5</td>
+            </tr>
+            <tr class="budget-group ours-row">
+              <td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
+              <td><strong>6.19</strong></td>
+              <td><strong>50.6</strong></td>
+              <td><strong>41.7</strong></td>
+              <td><strong>35.5</strong></td>
+            </tr>
+            <tr class="budget-group">
+              <td class="has-text-left method-cell">InternVLA-N1</td>
+              <td>6.45</td>
+              <td>46.0</td>
+              <td>38.5</td>
+              <td>34.4</td>
+            </tr>
+            <tr class="budget-group ours-row">
+              <td class="has-text-left method-cell method-fine"><strong>InternVLA-N1 + FINE</strong></td>
+              <td><strong>5.82</strong></td>
+              <td><strong>56.0</strong></td>
+              <td><strong>45.3</strong></td>
+              <td><strong>40.2</strong></td>
+            </tr>
+            <tr class="budget-group budget-sep">
+              <td class="budget-cell" rowspan="4"><span class="budget-badge">30%</span></td>
+              <td class="has-text-left method-cell">NaVILA</td>
+              <td>9.00</td>
+              <td>15.1</td>
+              <td>7.50</td>
+              <td>5.20</td>
+            </tr>
+            <tr class="budget-group ours-row">
+              <td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
+              <td><strong>8.52</strong></td>
+              <td><strong>21.0</strong></td>
+              <td><strong>11.9</strong></td>
+              <td><strong>10.3</strong></td>
+            </tr>
+            <tr class="budget-group">
+              <td class="has-text-left method-cell">InternVLA-N1</td>
+              <td>7.79</td>
+              <td>13.2</td>
+              <td>9.20</td>
+              <td>8.30</td>
+            </tr>
+            <tr class="budget-group ours-row">
+              <td class="has-text-left method-cell method-fine"><strong>InternVLA-N1 + FINE</strong></td>
+              <td><strong>7.46</strong></td>
+              <td><strong>21.3</strong></td>
+              <td><strong>14.4</strong></td>
+              <td><strong>13.5</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="benchmark">
+    <div class="container is-max-widescreen">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Benchmark Results</h2>
+          <p class="subtitle is-6">VLN-CE R2R and RxR val-unseen results at 100% training data.</p>
+          <p class="is-size-7 has-text-justified" style="max-width: 56rem; margin: 0 auto 1rem;">
+            Prior results are from original papers and may differ in observation space and external data.
+            Ours uses no external data; JanusVLN<sup>†</sup> uses ∼10.7M external image-action pairs.
+            Pano.: panoramic RGB; Odo.: odometry; S.RGB: single-view RGB.
+            Best in <strong>bold</strong>, second best <u>underlined</u>; —: not reported.
+          </p>
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered is-size-7">
+          <thead>
+            <tr>
+              <th rowspan="2" style="vertical-align: middle;">Method</th>
+              <th colspan="4">Observation</th>
+              <th colspan="4">R2R-CE Val-Unseen</th>
+              <th colspan="4">RxR-CE Val-Unseen</th>
+            </tr>
+            <tr>
+              <th>Pano.</th>
+              <th>Odo.</th>
+              <th>Depth</th>
+              <th>S.RGB</th>
+              <th>NE↓</th>
+              <th>OS↑</th>
+              <th>SR↑</th>
+              <th>SPL↑</th>
+              <th>NE↓</th>
+              <th>SR↑</th>
+              <th>SPL↑</th>
+              <th>nDTW↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="has-text-left">CMA</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td></td>
+              <td>6.20</td>
+              <td>52.0</td>
+              <td>41.0</td>
+              <td>36.0</td>
+              <td>8.76</td>
+              <td>26.5</td>
+              <td>22.1</td>
+              <td>47.0</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">ETPNav</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td></td>
+              <td>4.71</td>
+              <td>65.0</td>
+              <td>57.0</td>
+              <td>49.0</td>
+              <td>5.64</td>
+              <td>54.7</td>
+              <td>44.8</td>
+              <td>61.9</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">ScaleVLN</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td></td>
+              <td>4.80</td>
+              <td>—</td>
+              <td>55.0</td>
+              <td>51.0</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">NaVid</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>5.47</td>
+              <td>49.1</td>
+              <td>37.4</td>
+              <td>35.9</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">UniNaVid</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>5.58</td>
+              <td>53.3</td>
+              <td>47.0</td>
+              <td>42.7</td>
+              <td>6.24</td>
+              <td>48.7</td>
+              <td>40.9</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">FutureNav</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>5.15</td>
+              <td>61.6</td>
+              <td>55.5</td>
+              <td>51.4</td>
+              <td>5.93</td>
+              <td>53.3</td>
+              <td>45.4</td>
+              <td>59.8</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">JanusVLN</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>5.17</td>
+              <td>58.0</td>
+              <td>52.8</td>
+              <td>49.2</td>
+              <td>6.46</td>
+              <td>51.4</td>
+              <td>44.3</td>
+              <td>59.1</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">JanusVLN<sup>†</sup></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>4.78</td>
+              <td>65.2</td>
+              <td><u>60.5</u></td>
+              <td><strong>56.8</strong></td>
+              <td>6.06</td>
+              <td>56.2</td>
+              <td>47.5</td>
+              <td>62.1</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">NaVILA</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>5.22</td>
+              <td>62.5</td>
+              <td>54.0</td>
+              <td>49.0</td>
+              <td>6.77</td>
+              <td>49.3</td>
+              <td>44.0</td>
+              <td>58.8</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">StreamVLN</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>5.09</td>
+              <td>62.8</td>
+              <td>55.6</td>
+              <td>49.6</td>
+              <td>5.69</td>
+              <td>54.9</td>
+              <td>46.1</td>
+              <td>64.1</td>
+            </tr>
+            <tr>
+              <td class="has-text-left">InternVLA-N1</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td>4.83</td>
+              <td>63.3</td>
+              <td>58.2</td>
+              <td>54.0</td>
+              <td>5.91</td>
+              <td>53.5</td>
+              <td>46.1</td>
+              <td><u>65.3</u></td>
+            </tr>
+            <tr>
+              <td class="has-text-left"><strong>InternVLA-N1 + FINE (ours)</strong></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>✓</td>
+              <td><strong>4.29</strong></td>
+              <td><strong>65.7</strong></td>
+              <td><strong>60.8</strong></td>
+              <td><u>55.2</u></td>
+              <td><strong>4.86</strong></td>
+              <td><strong>58.0</strong></td>
+              <td><strong>47.6</strong></td>
+              <td><strong>66.4</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="qualitative">
+    <div class="container is-max-widescreen">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Qualitative Results</h2>
+          <p class="subtitle is-6">Simulation comparisons and real-world robot deployments.</p>
+        </div>
+      </div>
+
+      <!-- Simulation -->
+      <div id="simulation" class="qual-block">
+        <h3 class="title is-4 qual-heading">Simulation</h3>
+        <p class="is-size-6 has-text-centered" style="max-width: 48rem; margin: 0 auto 1.75rem;">
+          Each row: <strong>baseline | FINE</strong>&nbsp;&nbsp;&nbsp;<strong>baseline | FINE</strong> (four videos).
         </p>
-<p>
-          We introduce <strong>FINE</strong>, a <strong>F</strong>uture-<strong>I</strong>nformed <strong>N</strong>avigation <strong>E</strong>ncoding framework that extracts this latent supervision from existing demonstrations. FINE equips a VLN backbone with two complementary auxiliary representations. First, <em>explicit landmark tokens</em> follow the ordered landmarks specified by the instruction and are trained to predict the future landmark region in both semantic 2D patch-feature space and viewpoint-dependent 3D geometric feature space. Second, an <em>implicit future token</em> learns to distinguish the landmark state that is actually reached from plausible same-scene counterfactual futures generated by a video world model.
+
+        <!-- InternVLA-N1 -->
+        <div id="sim-internnav" class="qual-model-section">
+          <div class="qual-compare-label">
+            <span class="qual-chip">InternVLA-N1</span>
+            <span class="qual-vs">Baseline vs. + FINE</span>
+          </div>
+          <div class="cmp-grid">
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep1_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep1_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Walk past the kitchen counter, turn right into the hallway, and stop at the
+                    bedroom door.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep2_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep2_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Continue straight through the living room and stop in front of the
+                    staircase.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+            </div>
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep3_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep3_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Exit the office, turn left at the plant, and stop near the glass doors.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep4_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep4_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Go down the corridor, pass the sofa on your right, and stop at the bathroom
+                    entrance.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+            </div>
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep5_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep5_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Enter the dining area, walk toward the window, and stop beside the table.
+                  </p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep6_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep6_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Turn around at the lobby, follow the wall lights, and stop at the elevator
+                    hall.</p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+            </div>
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep7_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep7_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Cross the open space, avoid the chairs, and stop in front of the red door.
+                  </p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">InternVLA-N1</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep8_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/internnav/ep8_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Follow the wooden floor into the study and stop next to the bookshelf.</p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- NaVILA -->
+        <div id="sim-navila" class="qual-model-section">
+          <div class="qual-compare-label">
+            <span class="qual-chip">NaVILA</span>
+            <span class="qual-vs">Baseline vs. + FINE</span>
+          </div>
+          <div class="cmp-grid">
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep1_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep1_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Walk past the kitchen counter, turn right into the hallway, and stop at the
+                    bedroom door.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep2_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep2_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Continue straight through the living room and stop in front of the
+                    staircase.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+            </div>
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep3_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep3_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Exit the office, turn left at the plant, and stop near the glass doors.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep4_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep4_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Go down the corridor, pass the sofa on your right, and stop at the bathroom
+                    entrance.</p>
+                  <span class="cmp-meta">R2R-CE</span>
+                </div>
+              </article>
+            </div>
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep5_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep5_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Enter the dining area, walk toward the window, and stop beside the table.
+                  </p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep6_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep6_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Turn around at the lobby, follow the wall lights, and stop at the elevator
+                    hall.</p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+            </div>
+            <div class="cmp-row">
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep7_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep7_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Cross the open space, avoid the chairs, and stop in front of the red door.
+                  </p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+              <article class="cmp-card">
+                <div class="cmp-videos">
+                  <div class="cmp-pane">
+                    <span class="cmp-badge fail">Failed</span>
+                    <span class="cmp-badge model">NaVILA</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep8_baseline.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                  <div class="cmp-pane">
+                    <span class="cmp-badge success">Success</span>
+                    <span class="cmp-badge model ours">+ FINE</span>
+                    <video controls muted playsinline preload="metadata" loop>
+                      <source src="./static/videos/sim/navila/ep8_fine.mp4" type="video/mp4" />
+                    </video>
+                    <div class="qual-placeholder">Video coming soon</div>
+                  </div>
+                </div>
+                <div class="cmp-footer">
+                  <p class="cmp-instruction">Follow the wooden floor into the study and stop next to the bookshelf.</p>
+                  <span class="cmp-meta">RxR-CE</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Real-world -->
+      <div id="realworld" class="qual-block" style="margin-top: 3rem;">
+        <h3 class="title is-4 qual-heading">Real-World Robot Deployment</h3>
+        <p class="is-size-6 has-text-centered" style="max-width: 44rem; margin: 0 auto 1.75rem;">
+          FINE-enhanced navigation deployed on a physical robot. Each clip shows the onboard view with the
+          natural-language instruction.
         </p>
-<p>
-          On R2R-CE and RxR-CE val-unseen, FINE improves InternVLA-N1 by 2.6 and 4.5 success-rate points, respectively, at full training data. More importantly, as demonstrations become limited, the benefit grows: at a 70% demonstration budget, FINE improves success rate by 6.8 points, recovering roughly one-third of the performance lost by reducing the training demonstrations.
-        </p>
-<p class="is-size-6" style="margin-top: 1rem;">
-          <strong>Index Terms—</strong>Vision-Based Navigation, Deep Learning for Visual Perception, Representation Learning, Imitation Learning, AI-Enabled Robotics
-        </p>
-</div>
-</div>
-</div>
-</div>
-</section>
+        <div class="columns is-multiline is-variable is-4">
+          <div class="column is-6">
+            <div class="real-card">
+              <blockquote class="real-instruction">
+                <span class="real-instruction-label">Instruction</span>
+                “Follow the glass wall straight to the carton box, then head toward the blue table, turn right, and
+                walk down the hallway to stop at the green plant near the trash bin.”
+              </blockquote>
+              <div class="qual-video-frame">
+                <video controls muted playsinline preload="metadata">
+                  <source src="./static/videos/real/robot_1.mp4" type="video/mp4" />
+                </video>
+                <div class="qual-placeholder">Video coming soon</div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6">
+            <div class="real-card">
+              <blockquote class="real-instruction">
+                <span class="real-instruction-label">Instruction</span>
+                “Head to the blue table, turn right, and stop in front of the yellow table.”
+              </blockquote>
+              <div class="qual-video-frame">
+                <video controls muted playsinline preload="metadata">
+                  <source src="./static/videos/real/robot_2.mp4" type="video/mp4" />
+                </video>
+                <div class="qual-placeholder">Video coming soon</div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6">
+            <div class="real-card">
+              <blockquote class="real-instruction">
+                <span class="real-instruction-label">Instruction</span>
+                “Walk straight to the stack of carton boxes, turn left along the glass wall, and at the end turn
+                right to stop by the red fire extinguisher.”
+              </blockquote>
+              <div class="qual-video-frame portrait">
+                <video controls muted playsinline preload="metadata">
+                  <source src="./static/videos/real/robot_3.mp4" type="video/mp4" />
+                </video>
+                <div class="qual-placeholder">Video coming soon</div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6">
+            <div class="real-card">
+              <blockquote class="real-instruction">
+                <span class="real-instruction-label">Instruction</span>
+                “Walk past the blue table, turn right at the carton box, then continue straight and stop at the
+                green plant near the black glass door.”
+              </blockquote>
+              <div class="qual-video-frame portrait">
+                <video controls muted playsinline preload="metadata">
+                  <source src="./static/videos/real/robot_4.mp4" type="video/mp4" />
+                </video>
+                <div class="qual-placeholder">Video coming soon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- 4. Why FINE -->
-<section class="section" id="why-fine">
-<div class="container is-max-desktop">
-<div class="columns is-centered">
-<div class="column is-four-fifths">
-<h2 class="title is-3 has-text-centered">Why FINE?</h2>
-<div class="content has-text-justified">
-<p>
-          Adapting VLN policies to new environments is expensive: every new route and instruction requires an embodied demonstration. Most policies are trained through observation-to-action prediction alone, even though each demonstration already contains richer supervision — future observations reveal which landmark comes next, its appearance, and its 3D structure, with no extra annotation or interaction required.
-        </p>
-<p>
-          Prior work either summarizes what the agent has already seen, or predicts future observations for use during inference. FINE takes a different view: <strong>the future should serve as a teacher during training</strong>, rather than an extra input or rollout mechanism at deployment.
-        </p>
-</div>
-</div>
-</div>
-</div>
-</section>
+    </div>
+  </section>
 
-<!-- 5. Overview image -->
-<section class="section" id="overview">
-<div class="container is-max-desktop">
-<div class="columns is-centered has-text-centered">
-<div class="column is-full-width">
-<h2 class="title is-3">Overview</h2>
-<p class="subtitle is-6">Given the instruction and current observation, FINE builds ordered explicit landmark tokens and an implicit future-state token that condition the policy's action decoder — future supervision shapes training only, adding no extra computation at deployment.</p>
-<figure class="overview-figure">
-<img alt="FINE method overview." class="overview-image" src="./static/images/overview.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
-<div class="overview-placeholder" style="display:none;">
-<span>Overview figure coming soon<br/><small>Place file at <code>static/images/overview.png</code></small></span>
-</div>
-</figure>
-</div>
-</div>
-</div>
-</section>
-
-<!-- 6. Explicit component -->
-<section class="section" id="explicit">
-<div class="container is-max-desktop">
-<div class="columns is-centered">
-<div class="column is-full-width">
-<h2 class="title is-3 has-text-centered">Explicit Landmark Modeling</h2>
-<div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
-<p>
-Navigation instructions typically describe an ordered sequence of landmarks — for example, <em>pass the carton box</em>, then <em>head toward the blue table</em>, and stop at the green plant. FINE represents these landmarks as <strong>ordered tokens</strong> that capture both identity and route position, grounds them in the current observation, and trains them to predict the semantic appearance and 3D geometric structure of the corresponding future landmark region.
-</p>
-</div>
-<figure class="component-figure">
-<img alt="Explicit landmark modeling component." class="component-image" src="./static/images/explicit.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
-<div class="overview-placeholder" style="display:none;">
-<span>Explicit component figure coming soon<br/><small>Place file at <code>static/images/explicit.png</code></small></span>
-</div>
-</figure>
-</div>
-</div>
-</div>
-</section>
-
-<!-- 7. Implicit component -->
-<section class="section" id="implicit">
-<div class="container is-max-desktop">
-<div class="columns is-centered">
-<div class="column is-full-width">
-<h2 class="title is-3 has-text-centered">Implicit Navigation-State Modeling</h2>
-<div class="content has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
-<p>
-Predicting landmarks teaches the model <em>what should appear next</em>, but not <strong>which future actually matches the demonstrated route</strong>. FINE addresses this with a future token trained to recognize the landmark state the demonstration actually reaches, while distinguishing it from plausible same-scene alternatives generated by a video world model.
-</p>
-</div>
-<figure class="component-figure">
-<img alt="Implicit navigation-state modeling component." class="component-image" src="./static/images/implicit.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
-<div class="overview-placeholder" style="display:none;">
-<span>Implicit component figure coming soon<br/><small>Place file at <code>static/images/implicit.png</code></small></span>
-</div>
-</figure>
-</div>
-</div>
-</div>
-</section>
-
-<!-- 8. Results -->
-<section class="section" id="main-results">
-<div class="container is-max-desktop">
-<div class="columns is-centered has-text-centered">
-<div class="column is-full-width">
-<h2 class="title is-3">Main Results</h2>
-<p class="subtitle is-6">Demonstration-budget comparison on R2R-CE val-unseen.</p>
-<p class="is-size-7 has-text-justified" style="max-width: 42rem; margin: 0 auto 1.25rem;">
-Budgets subsample training episodes; baseline and FINE consume the identical subset and the same number of optimizer updates.
-Within each baseline/FINE pair, the better value is in <strong>bold</strong>.
-</p>
-</div>
-</div>
-<div class="table-container results-table-wrap">
-<table class="table is-fullwidth has-text-centered results-table">
-<thead>
-<tr>
-<th class="has-text-left">Budget</th>
-<th class="has-text-left">Method</th>
-<th>NE↓</th>
-<th>OS↑</th>
-<th>SR↑</th>
-<th>SPL↑</th>
-</tr>
-</thead>
-<tbody>
-<tr class="budget-group">
-<td class="budget-cell" rowspan="4"><span class="budget-badge">100%</span></td>
-<td class="has-text-left method-cell">NaVILA</td>
-<td>5.20</td><td>61.6</td><td>54.0</td><td>49.0</td>
-</tr>
-<tr class="budget-group ours-row">
-<td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
-<td><strong>5.00</strong></td><td><strong>63.1</strong></td><td><strong>55.6</strong></td><td><strong>50.7</strong></td>
-</tr>
-<tr class="budget-group">
-<td class="has-text-left method-cell">InternVLA-N1</td>
-<td>4.83</td><td>63.3</td><td>58.2</td><td>54.0</td>
-</tr>
-<tr class="budget-group ours-row">
-<td class="has-text-left method-cell method-fine"><strong>InternVLA-N1 + FINE</strong></td>
-<td><strong>4.29</strong></td><td><strong>65.7</strong></td><td><strong>60.8</strong></td><td><strong>55.2</strong></td>
-</tr>
-<tr class="budget-group budget-sep">
-<td class="budget-cell" rowspan="4"><span class="budget-badge">70%</span></td>
-<td class="has-text-left method-cell">NaVILA</td>
-<td>6.76</td><td>46.9</td><td>36.2</td><td>29.5</td>
-</tr>
-<tr class="budget-group ours-row">
-<td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
-<td><strong>6.19</strong></td><td><strong>50.6</strong></td><td><strong>41.7</strong></td><td><strong>35.5</strong></td>
-</tr>
-<tr class="budget-group">
-<td class="has-text-left method-cell">InternVLA-N1</td>
-<td>6.45</td><td>46.0</td><td>38.5</td><td>34.4</td>
-</tr>
-<tr class="budget-group ours-row">
-<td class="has-text-left method-cell method-fine"><strong>InternVLA-N1 + FINE</strong></td>
-<td><strong>5.82</strong></td><td><strong>56.0</strong></td><td><strong>45.3</strong></td><td><strong>40.2</strong></td>
-</tr>
-<tr class="budget-group budget-sep">
-<td class="budget-cell" rowspan="4"><span class="budget-badge">30%</span></td>
-<td class="has-text-left method-cell">NaVILA</td>
-<td>9.00</td><td>15.1</td><td>7.50</td><td>5.20</td>
-</tr>
-<tr class="budget-group ours-row">
-<td class="has-text-left method-cell method-fine"><strong>NaVILA + FINE</strong></td>
-<td><strong>8.52</strong></td><td><strong>21.0</strong></td><td><strong>11.9</strong></td><td><strong>10.3</strong></td>
-</tr>
-<tr class="budget-group">
-<td class="has-text-left method-cell">InternVLA-N1</td>
-<td>7.79</td><td>13.2</td><td>9.20</td><td>8.30</td>
-</tr>
-<tr class="budget-group ours-row">
-<td class="has-text-left method-cell method-fine"><strong>InternVLA-N1 + FINE</strong></td>
-<td><strong>7.46</strong></td><td><strong>21.3</strong></td><td><strong>14.4</strong></td><td><strong>13.5</strong></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-
-<section class="section" id="benchmark">
-<div class="container is-max-widescreen">
-<div class="columns is-centered has-text-centered">
-<div class="column is-full-width">
-<h2 class="title is-3">Benchmark Results</h2>
-<p class="subtitle is-6">VLN-CE R2R and RxR val-unseen results at 100% training data.</p>
-<p class="is-size-7 has-text-justified" style="max-width: 56rem; margin: 0 auto 1rem;">
-Prior results are from original papers and may differ in observation space and external data.
-Ours uses no external data; JanusVLN<sup>†</sup> uses ∼10.7M external image-action pairs.
-Pano.: panoramic RGB; Odo.: odometry; S.RGB: single-view RGB.
-Best in <strong>bold</strong>, second best <u>underlined</u>; —: not reported.
-</p>
-</div>
-</div>
-<div class="table-container">
-<table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered is-size-7">
-<thead>
-<tr>
-<th rowspan="2" style="vertical-align: middle;">Method</th>
-<th colspan="4">Observation</th>
-<th colspan="4">R2R-CE Val-Unseen</th>
-<th colspan="4">RxR-CE Val-Unseen</th>
-</tr>
-<tr>
-<th>Pano.</th>
-<th>Odo.</th>
-<th>Depth</th>
-<th>S.RGB</th>
-<th>NE↓</th>
-<th>OS↑</th>
-<th>SR↑</th>
-<th>SPL↑</th>
-<th>NE↓</th>
-<th>SR↑</th>
-<th>SPL↑</th>
-<th>nDTW↑</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="has-text-left">CMA</td>
-<td>✓</td><td>✓</td><td>✓</td><td></td>
-<td>6.20</td><td>52.0</td><td>41.0</td><td>36.0</td>
-<td>8.76</td><td>26.5</td><td>22.1</td><td>47.0</td>
-</tr>
-<tr>
-<td class="has-text-left">ETPNav</td>
-<td>✓</td><td>✓</td><td>✓</td><td></td>
-<td>4.71</td><td>65.0</td><td>57.0</td><td>49.0</td>
-<td>5.64</td><td>54.7</td><td>44.8</td><td>61.9</td>
-</tr>
-<tr>
-<td class="has-text-left">ScaleVLN</td>
-<td>✓</td><td>✓</td><td>✓</td><td></td>
-<td>4.80</td><td>—</td><td>55.0</td><td>51.0</td>
-<td>—</td><td>—</td><td>—</td><td>—</td>
-</tr>
-<tr>
-<td class="has-text-left">NaVid</td>
-<td></td><td></td><td></td><td>✓</td>
-<td>5.47</td><td>49.1</td><td>37.4</td><td>35.9</td>
-<td>—</td><td>—</td><td>—</td><td>—</td>
-</tr>
-<tr>
-<td class="has-text-left">UniNaVid</td>
-<td></td><td></td><td></td><td>✓</td>
-<td>5.58</td><td>53.3</td><td>47.0</td><td>42.7</td>
-<td>6.24</td><td>48.7</td><td>40.9</td><td>—</td>
-</tr>
-<tr>
-<td class="has-text-left">FutureNav</td>
-<td></td><td></td><td></td><td>✓</td>
-<td>5.15</td><td>61.6</td><td>55.5</td><td>51.4</td>
-<td>5.93</td><td>53.3</td><td>45.4</td><td>59.8</td>
-</tr>
-<tr>
-<td class="has-text-left">JanusVLN</td>
-<td></td><td></td><td></td><td>✓</td>
-<td>5.17</td><td>58.0</td><td>52.8</td><td>49.2</td>
-<td>6.46</td><td>51.4</td><td>44.3</td><td>59.1</td>
-</tr>
-<tr>
-<td class="has-text-left">JanusVLN<sup>†</sup></td>
-<td></td><td></td><td></td><td>✓</td>
-<td>4.78</td><td>65.2</td><td><u>60.5</u></td><td><strong>56.8</strong></td>
-<td>6.06</td><td>56.2</td><td>47.5</td><td>62.1</td>
-</tr>
-<tr>
-<td class="has-text-left">NaVILA</td>
-<td></td><td></td><td></td><td>✓</td>
-<td>5.22</td><td>62.5</td><td>54.0</td><td>49.0</td>
-<td>6.77</td><td>49.3</td><td>44.0</td><td>58.8</td>
-</tr>
-<tr>
-<td class="has-text-left">StreamVLN</td>
-<td></td><td></td><td></td><td>✓</td>
-<td>5.09</td><td>62.8</td><td>55.6</td><td>49.6</td>
-<td>5.69</td><td>54.9</td><td>46.1</td><td>64.1</td>
-</tr>
-<tr>
-<td class="has-text-left">InternVLA-N1</td>
-<td></td><td></td><td></td><td>✓</td>
-<td>4.83</td><td>63.3</td><td>58.2</td><td>54.0</td>
-<td>5.91</td><td>53.5</td><td>46.1</td><td><u>65.3</u></td>
-</tr>
-<tr>
-<td class="has-text-left"><strong>InternVLA-N1 + FINE (ours)</strong></td>
-<td></td><td></td><td></td><td>✓</td>
-<td><strong>4.29</strong></td><td><strong>65.7</strong></td><td><strong>60.8</strong></td><td><u>55.2</u></td>
-<td><strong>4.86</strong></td><td><strong>58.0</strong></td><td><strong>47.6</strong></td><td><strong>66.4</strong></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-
-<section class="section" id="qualitative">
-<div class="container is-max-widescreen">
-<div class="columns is-centered has-text-centered">
-<div class="column is-full-width">
-<h2 class="title is-3">Qualitative Results</h2>
-<p class="subtitle is-6">Simulation comparisons and real-world robot deployments.</p>
-</div>
-</div>
-
-<!-- Simulation -->
-<div id="simulation" class="qual-block">
-<h3 class="title is-4 qual-heading">Simulation</h3>
-<p class="is-size-6 has-text-centered" style="max-width: 48rem; margin: 0 auto 1.75rem;">
-Each row: <strong>baseline | FINE</strong>&nbsp;&nbsp;&nbsp;<strong>baseline | FINE</strong> (four videos).
-</p>
-
-<!-- InternVLA-N1 -->
-<div id="sim-internnav" class="qual-model-section">
-<div class="qual-compare-label">
-<span class="qual-chip">InternVLA-N1</span>
-<span class="qual-vs">Baseline vs. + FINE</span>
-</div>
-<div class="cmp-grid">
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep1_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep1_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Walk past the kitchen counter, turn right into the hallway, and stop at the bedroom door.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep2_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep2_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Continue straight through the living room and stop in front of the staircase.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-</div>
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep3_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep3_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Exit the office, turn left at the plant, and stop near the glass doors.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep4_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep4_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Go down the corridor, pass the sofa on your right, and stop at the bathroom entrance.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-</div>
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep5_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep5_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Enter the dining area, walk toward the window, and stop beside the table.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep6_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep6_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Turn around at the lobby, follow the wall lights, and stop at the elevator hall.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-</div>
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep7_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep7_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Cross the open space, avoid the chairs, and stop in front of the red door.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">InternVLA-N1</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep8_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/internnav/ep8_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Follow the wooden floor into the study and stop next to the bookshelf.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-</div>
-</div>
-</div>
-
-<!-- NaVILA -->
-<div id="sim-navila" class="qual-model-section">
-<div class="qual-compare-label">
-<span class="qual-chip">NaVILA</span>
-<span class="qual-vs">Baseline vs. + FINE</span>
-</div>
-<div class="cmp-grid">
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep1_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep1_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Walk past the kitchen counter, turn right into the hallway, and stop at the bedroom door.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep2_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep2_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Continue straight through the living room and stop in front of the staircase.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-</div>
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep3_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep3_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Exit the office, turn left at the plant, and stop near the glass doors.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep4_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep4_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Go down the corridor, pass the sofa on your right, and stop at the bathroom entrance.</p>
-<span class="cmp-meta">R2R-CE</span>
-</div>
-</article>
-</div>
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep5_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep5_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Enter the dining area, walk toward the window, and stop beside the table.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep6_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep6_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Turn around at the lobby, follow the wall lights, and stop at the elevator hall.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-</div>
-<div class="cmp-row">
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep7_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep7_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Cross the open space, avoid the chairs, and stop in front of the red door.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-<article class="cmp-card">
-<div class="cmp-videos">
-<div class="cmp-pane">
-<span class="cmp-badge fail">Failed</span>
-<span class="cmp-badge model">NaVILA</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep8_baseline.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-<div class="cmp-pane">
-<span class="cmp-badge success">Success</span>
-<span class="cmp-badge model ours">+ FINE</span>
-<video controls muted playsinline preload="metadata" loop>
-<source src="./static/videos/sim/navila/ep8_fine.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-<div class="cmp-footer">
-<p class="cmp-instruction">Follow the wooden floor into the study and stop next to the bookshelf.</p>
-<span class="cmp-meta">RxR-CE</span>
-</div>
-</article>
-</div>
-</div>
-</div>
-
-</div>
-
-<!-- Real-world -->
-<div id="realworld" class="qual-block" style="margin-top: 3rem;">
-<h3 class="title is-4 qual-heading">Real-World Robot Deployment</h3>
-<p class="is-size-6 has-text-centered" style="max-width: 44rem; margin: 0 auto 1.75rem;">
-FINE-enhanced navigation deployed on a physical robot. Each clip shows the onboard view with the natural-language instruction.
-</p>
-<div class="columns is-multiline is-variable is-4">
-<div class="column is-6">
-<div class="real-card">
-<blockquote class="real-instruction">
-<span class="real-instruction-label">Instruction</span>
-“Walk down the hallway, turn left at the potted plant, and stop in front of the office door.”
-</blockquote>
-<div class="qual-video-frame">
-<video controls muted playsinline preload="metadata">
-<source src="./static/videos/real/robot_1.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-</div>
-<div class="column is-6">
-<div class="real-card">
-<blockquote class="real-instruction">
-<span class="real-instruction-label">Instruction</span>
-“Go past the meeting room, enter the open workspace, and stop near the whiteboard.”
-</blockquote>
-<div class="qual-video-frame">
-<video controls muted playsinline preload="metadata">
-<source src="./static/videos/real/robot_2.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-</div>
-<div class="column is-6">
-<div class="real-card">
-<blockquote class="real-instruction">
-<span class="real-instruction-label">Instruction</span>
-“Continue straight through the corridor and stop at the reception desk.”
-</blockquote>
-<div class="qual-video-frame">
-<video controls muted playsinline preload="metadata">
-<source src="./static/videos/real/robot_3.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-</div>
-<div class="column is-6">
-<div class="real-card">
-<blockquote class="real-instruction">
-<span class="real-instruction-label">Instruction</span>
-“Turn right after the glass wall and stop next to the elevator.”
-</blockquote>
-<div class="qual-video-frame">
-<video controls muted playsinline preload="metadata">
-<source src="./static/videos/real/robot_4.mp4" type="video/mp4"/>
-</video>
-<div class="qual-placeholder">Video coming soon</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</section>
-
-<section class="section" id="BibTeX">
-<div class="container is-max-desktop content">
-<h2 class="title">BibTeX</h2>
-<pre><code>% BibTeX coming soon after the paper is released.</code></pre>
-</div>
-</section>
-<footer class="footer">
-<div class="container">
-<div class="content has-text-centered">
-<span aria-hidden="true" class="icon-link" style="opacity:0.45;"><i class="fas fa-file-pdf"></i></span>
-<span aria-hidden="true" class="icon-link" style="opacity:0.45;"><i class="fab fa-github"></i></span>
-</div>
-<div class="columns is-centered">
-<div class="column is-8">
-<div class="content">
-<p>
-          Project page for <strong>FINE: Future-Informed Navigation Encoding for Data-Efficient Vision-Language Navigation</strong>.
-          Paper, arXiv, video, and code will be released soon.
-        </p>
-<p>
-          Website template adapted from <a href="https://nerfies.github.io/">Nerfies</a> and distributed under the
-          <a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="license">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-        </p>
-</div>
-</div>
-</div>
-</div>
-</footer>
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>% BibTeX coming soon after the paper is released.</code></pre>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <span aria-hidden="true" class="icon-link" style="opacity:0.45;"><i class="fas fa-file-pdf"></i></span>
+        <span aria-hidden="true" class="icon-link" style="opacity:0.45;"><i class="fab fa-github"></i></span>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              Project page for <strong>FINE: Future-Informed Navigation Encoding for Data-Efficient Vision-Language
+                Navigation</strong>.
+              Paper, arXiv, video, and code will be released soon.
+            </p>
+            <p>
+              Website template adapted from <a href="https://nerfies.github.io/">Nerfies</a> and distributed under the
+              <a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="license">Creative Commons
+                Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
+
 </html>
