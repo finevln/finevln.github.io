@@ -1,0 +1,81 @@
+/* Sticky navbar and scrollspy. Loaded after Bulma and index.css so these rules win ties. */
+
+:root {
+  --ui-navbar-height: 3.25rem; /* Bulma's navbar height */
+}
+
+/* ui-enhance.js adds this class once the page has loaded. */
+@media (prefers-reduced-motion: no-preference) {
+  html.ui-smooth-scroll {
+    scroll-behavior: smooth;
+  }
+}
+
+section[id] {
+  scroll-margin-top: var(--ui-navbar-height);
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navbar.is-scrolled {
+  background-color: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.1);
+}
+
+/* Desktop: show the Project dropdown's links as one evenly spaced row, with no markup change. */
+@media (min-width: 1024px) {
+  .navbar .navbar-start .navbar-link {
+    display: none;
+  }
+
+  .navbar .navbar-start .has-dropdown,
+  .navbar .navbar-start .navbar-item .navbar-dropdown {
+    display: contents;
+  }
+
+  /* !important because the markup sets justify-content inline. The max-width keeps gaps near 40px. */
+  .navbar .navbar-start {
+    justify-content: space-evenly !important;
+    max-width: 1240px;
+    margin-inline: auto;
+  }
+
+  .navbar .navbar-start a.navbar-item {
+    padding-inline: 0.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .navbar a.navbar-item:hover {
+    background-color: transparent;
+    color: #0a0a0a;
+  }
+}
+
+.navbar a.navbar-item.is-active {
+  background-color: transparent;
+  color: #0e7490;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* Below Bulma's desktop breakpoint, the open menu sits over the page instead of pushing it down,
+   and scrolls by itself if it is taller than the screen. */
+@media (max-width: 1023px) {
+  .navbar-menu.is-active {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - var(--ui-navbar-height));
+    max-height: calc(100dvh - var(--ui-navbar-height));
+    overflow-y: auto;
+  }
+}
