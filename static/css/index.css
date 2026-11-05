@@ -676,3 +676,52 @@ body {
 .publication-affiliations .author-block {
   margin-right: 0.5em;
 }
+
+/* Affiliation logos under the author list. */
+.affiliation-logos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 1.75rem 0 1.25rem;
+}
+
+.affiliation-logos-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.affiliation-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.75rem;
+}
+
+/* The wide wordmarks read at 2.75rem; logos with stacked text need more height. */
+.affiliation-logo img {
+  display: block;
+  width: auto;
+  height: 2.75rem;
+  object-fit: contain;
+}
+
+.affiliation-logo img.is-tall {
+  height: 4.5rem;
+}
+
+@media (max-width: 480px) {
+  .affiliation-logo img {
+    height: 2rem;
+  }
+
+  .affiliation-logo img.is-tall {
+    height: 3.25rem;
+  }
+}
