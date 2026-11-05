@@ -13,7 +13,10 @@ const ROOT = path.resolve(__dirname, '../..');
 const FPS = 30;
 const LEAD_IN = 0.5; // seconds on the first frame
 const HOLD_END = 2; // seconds on the final state
-const OUTPUTS = { implicit: { name: 'implicit_state', modes: ['training', 'inference'] } };
+const OUTPUTS = {
+  implicit: { name: 'implicit_state', modes: ['training', 'inference'] },
+  explicit: { name: 'explicit_landmark', modes: ['training', 'inference'] },
+};
 const ENCODERS = {
   mp4: ['-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart'],
   webm: ['-c:v', 'libvpx-vp9', '-crf', '30', '-b:v', '0', '-pix_fmt', 'yuv420p', '-row-mt', '1', '-cpu-used', '2'],

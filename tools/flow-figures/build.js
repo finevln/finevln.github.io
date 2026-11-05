@@ -13,7 +13,10 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '../..');
 const E = '7_envPC2WcOWe4Q2p9b6-';
+const G = '7owgIusgeQrZckSP8_GC-';
+const R = 'XFn4t0wJtZkZurYYie35-';
 const TEXT = 'font-family="Helvetica, Arial, sans-serif" font-weight="700" fill="#000" text-anchor="middle" dominant-baseline="central"';
+const SMALL_LABEL = 'font-family="Helvetica, Arial, sans-serif" font-size="6.5" font-weight="700" fill="#333" text-anchor="middle" dominant-baseline="central"';
 
 const FIGURES = {
   implicit: {
@@ -83,6 +86,96 @@ const FIGURES = {
              <tspan font-style="italic">f</tspan><tspan font-size="6" dy="2">enc</tspan>
            </text>
          </g>`,
+        `<g id="{p}-vlm" class="flow-block" data-block="vlm"><text x="338" y="112" ${SMALL_LABEL}>VLM</text></g>`,
+      ],
+    },
+  },
+  explicit: {
+    src: 'static/images/Fine-Page-9.svg',
+    out: 'static/images/flow/explicit.svg',
+    prefix: 'expl',
+    viewBox: '8 8 610 215',
+    panel: 'E6PhEIBH6mb4I11nNJ3w-1',
+    remove: [G + '4'], // empty cell
+    equations: {
+      cell: 'maTFEll-mRCfb8QG_jMh-1',
+      rows: ['eq-q', 'eq-e', 'eq-t', 'eq-l'],
+      // This row holds both OAE (used at inference) and SGAD (training only), so it needs two states.
+      split: { 'eq-e': { from: 14, name: 'eq-sgad' } },
+    },
+    cells: {
+      [G + '1']: ['fs-frame', 'fs', 'shape'],
+      [G + '28']: ['fs-label', 'fs'],
+      [G + '29']: ['fs-geo-frame', 'fs'],
+      [G + '31']: ['fs-geo-label', 'fs'],
+      [G + '2']: ['fs-sem-frame', 'fs'],
+      [G + '30']: ['fs-sem-label', 'fs'],
+      [R + '51']: ['g-hat-1', 'ghat', 'shape'],
+      [R + '52']: ['g-hat-2', 'ghat', 'shape'],
+      [R + '53']: ['g-hat-3', 'ghat', 'shape'],
+      'Xp1whX4MB2yLP03rJzB9-1': ['g-hat-label', 'ghat'],
+      [R + '54']: ['g-1', 'g', 'shape'],
+      [R + '55']: ['g-2', 'g', 'shape'],
+      [R + '56']: ['g-3', 'g', 'shape'],
+      'bVDjaEAUpRop606-qsnI-1': ['g-label', 'g'],
+      [R + '63']: ['s-hat-1', 'shat', 'shape'],
+      [R + '64']: ['s-hat-2', 'shat', 'shape'],
+      [R + '65']: ['s-hat-3', 'shat', 'shape'],
+      'ox7HAuWfkw8EUgCJDi58-1': ['s-hat-label', 'shat'],
+      [R + '67']: ['s-1', 's', 'shape'],
+      [R + '68']: ['s-2', 's', 'shape'],
+      [R + '69']: ['s-3', 's', 'shape'],
+      'kx8J7g5GvP2Mdeq4Qc03-1': ['s-label', 's'],
+      [G + '23']: ['geometry-encoder', 'geo', 'shape'],
+      [G + '24']: ['geometry-image', 'geo'],
+      [G + '25']: ['geometry-label', 'geo'],
+      [G + '26']: ['geometry-frozen', 'geo'],
+      [G + '47']: ['patch-embedding', 'pe', 'shape'],
+      [G + '48']: ['patch-image', 'pe'],
+      [G + '49']: ['patch-label', 'pe'],
+      [G + '50']: ['patch-frozen', 'pe'],
+      [G + '20']: ['rgb-1', null, 'shape'],
+      [G + '21']: ['rgb-2', null, 'shape'],
+      [G + '5']: ['rgb-3', null, 'shape'],
+      [G + '55']: ['rgb-box-yellow', null],
+      [G + '56']: ['rgb-box-red', null],
+      [G + '7']: ['rgb-label', 'rgb'],
+      [G + '6']: ['sgad', 'sgad', 'shape'],
+      [G + '16']: ['sgad-flame', 'sgad', 'flame'],
+      [G + '57']: ['sgad-symbol', 'sgad'],
+      [G + '17']: ['token-a', 'tokens', 'shape'],
+      [G + '18']: ['token-b', 'tokens', 'shape'],
+      [G + '19']: ['token-dots', 'tokens'],
+    },
+    edges: {
+      [G + '59']: 'sgad-ghat',
+      [G + '58']: 'sgad-shat',
+      [G + '27']: 'rgb-pe',
+      'b8aHgMKXA48onVt0DliQ-5': 'rgb-geo',
+      [G + '60']: 'geo-g',
+      'ajHk4DLV9AEkD_0WLSlj-13': 'pe-s',
+      [G + '38']: 'cmp-g',
+      [G + '42']: 'cmp-s',
+    },
+    // Overlapping photos must fade as one image, or they show through each other when dimmed.
+    groups: [{ id: 'rgb-stack', block: 'rgb', cells: [G + '5', G + '55', G + '21', G + '20', G + '56'] }],
+    // This rect overlaps its neighbour in the source, which turns that box darker when dimmed.
+    rectWidths: { [R + '68']: 11 },
+    // The source starts these arrows 6 units right of the image stack; run them back to its edge.
+    extendStart: { [G + '27']: [213, 158], 'b8aHgMKXA48onVt0DliQ-5': [213, 159] },
+    add: {
+      edges: {
+        'eq-tok': 'M 303.5 80 C 288 80 286 178.8 262 178.8 L 98 178.8 C 90 178.8 92 164.5 81.4 164.5',
+        'tok-sgad-a': 'M 46.7 159.4 L 46.7 151.3',
+        'tok-sgad-b': 'M 72.7 159.4 L 72.7 151.3',
+        'tok-policy': 'M 46.7 169.6 L 46.7 203',
+      },
+      blocks: [
+        `<g id="{p}-policy" class="flow-block" data-block="policy">
+           <rect class="flow-shape" x="21.7" y="203" width="50" height="18" rx="3.3" fill="#f8cecc" stroke="#b85450"/>
+           <text x="46.7" y="212" font-size="9" ${TEXT}>Policy</text>
+         </g>`,
+        `<g id="{p}-vlm" class="flow-block" data-block="vlm"><text x="128" y="173" ${SMALL_LABEL}>VLM</text></g>`,
       ],
     },
   },
@@ -122,36 +215,86 @@ async function transform(cfg) {
       const walker = document.createTreeWalker(fo, NodeFilter.SHOW_TEXT);
       while (walker.nextNode()) {
         const node = walker.currentNode;
-        const str = node.textContent.trim();
-        if (!str) continue;
-        const range = document.createRange();
-        range.selectNodeContents(node);
-        if (range.getClientRects().length > 1) throw new Error(`label wraps: "${str}"`);
-        const b = box(range);
+        if (!node.textContent.trim()) continue;
         const css = getComputedStyle(node.parentElement);
-        const text = document.createElementNS(NS, 'text');
-        const attrs = {
-          x: round(b.x + b.w / 2), y: round(b.y + b.h / 2), 'font-family': 'Helvetica, Arial, sans-serif',
-          'font-size': css.fontSize.replace('px', ''), 'font-weight': css.fontWeight, fill: css.color,
-          'text-anchor': 'middle', 'dominant-baseline': 'central',
-        };
-        for (const k in attrs) text.setAttribute(k, attrs[k]);
-        text.textContent = str;
-        parts.push(text);
+        for (const line of textLines(node)) {
+          const text = document.createElementNS(NS, 'text');
+          const attrs = {
+            x: round((line.left + line.right) / 2 - origin.left), y: round((line.top + line.bottom) / 2 - origin.top),
+            'font-family': 'Helvetica, Arial, sans-serif', 'font-size': css.fontSize.replace('px', ''),
+            'font-weight': css.fontWeight, fill: css.color, 'text-anchor': 'middle', 'dominant-baseline': 'central',
+          };
+          for (const k in attrs) text.setAttribute(k, attrs[k]);
+          text.textContent = line.str.trim();
+          parts.push(text);
+        }
       }
     }
     return parts;
   };
+  /* One text node can wrap onto several lines; returns each line's text and bounds. */
+  function textLines(node) {
+    const lines = [];
+    const range = document.createRange();
+    for (let i = 0; i < node.length; i += 1) {
+      range.setStart(node, i);
+      range.setEnd(node, i + 1);
+      const r = range.getClientRects()[0];
+      if (!r) continue;
+      const blank = !node.data[i].trim();
+      let line = lines[lines.length - 1];
+      if (blank && !line) continue;
+      if (!line || Math.abs(line.top - r.top) > 2) {
+        if (blank) continue;
+        line = { top: r.top, bottom: r.bottom, left: r.left, right: r.right, str: '' };
+        lines.push(line);
+      }
+      line.str += node.data[i];
+      if (!blank) line.right = r.right;
+    }
+    return lines;
+  }
+  const unionBox = (els) => {
+    const boxes = els.map(box).filter((b) => b.w > 0);
+    const x = Math.min(...boxes.map((b) => b.x));
+    const y = Math.min(...boxes.map((b) => b.y));
+    return { x, y, w: Math.max(...boxes.map((b) => b.x + b.w)) - x, h: Math.max(...boxes.map((b) => b.y + b.h)) - y };
+  };
+  const cellsOf = (row) => [...row.querySelector('[data-mml-node="mtd"]').children];
   const equationRows = [];
   for (const fo of [...root.querySelectorAll('foreignObject')]) {
     const parts = flatten(fo);
     const rows = fo.querySelectorAll('[data-mml-node="mtr"]');
     if (rows.length) {
-      rows.forEach((r, i) => equationRows.push({ name: cfg.equations.rows[i], box: box(r) }));
-      const copied = parts[0].querySelectorAll('[data-mml-node="mtr"]');
-      copied.forEach((r, i) => {
-        r.setAttribute('class', 'flow-block');
-        r.setAttribute('data-block', cfg.equations.rows[i]);
+      const splits = cfg.equations.split || {};
+      rows.forEach((r, i) => {
+        const name = cfg.equations.rows[i];
+        const split = splits[name];
+        if (split) {
+          const kids = cellsOf(r);
+          equationRows.push({ name, box: unionBox(kids.slice(0, split.from)) });
+          equationRows.push({ name: split.name, box: unionBox(kids.slice(split.from)) });
+        } else {
+          equationRows.push({ name, box: box(r) });
+        }
+      });
+      parts[0].querySelectorAll('[data-mml-node="mtr"]').forEach((r, i) => {
+        const name = cfg.equations.rows[i];
+        const split = splits[name];
+        if (!split) {
+          r.setAttribute('class', 'flow-block');
+          r.setAttribute('data-block', name);
+          return;
+        }
+        const kids = cellsOf(r);
+        const parent = kids[0].parentNode;
+        for (const [block, els] of [[name, kids.slice(0, split.from)], [split.name, kids.slice(split.from)]]) {
+          const wrapper = document.createElementNS(NS, 'g');
+          wrapper.setAttribute('class', 'flow-block');
+          wrapper.setAttribute('data-block', block);
+          wrapper.append(...els);
+          parent.appendChild(wrapper);
+        }
       });
     }
     fo.closest('switch').replaceWith(...parts);
@@ -179,17 +322,30 @@ async function transform(cfg) {
     const g = cell(id);
     const target = flag === 'text-only' ? g.querySelector('text') : g;
     g.setAttribute('id', `${cfg.prefix}-${name}`);
-    target.setAttribute('class', flag === 'flame' ? 'flow-block flow-flame' : 'flow-block');
-    target.setAttribute('data-block', block);
+    if (block) {
+      target.setAttribute('class', flag === 'flame' ? 'flow-block flow-flame' : 'flow-block');
+      target.setAttribute('data-block', block);
+    }
     if (flag === 'shape') g.querySelector('rect, ellipse').classList.add('flow-shape');
+  }
+  for (const [id, width] of Object.entries(cfg.rectWidths || {})) cell(id).querySelector('rect').setAttribute('width', width);
+  for (const group of cfg.groups || []) {
+    const wrapper = document.createElementNS(NS, 'g');
+    wrapper.setAttribute('id', `${cfg.prefix}-${group.id}`);
+    wrapper.setAttribute('class', 'flow-block');
+    wrapper.setAttribute('data-block', group.block);
+    cell(group.cells[0]).before(wrapper);
+    group.cells.forEach((id) => wrapper.appendChild(cell(id)));
   }
   for (const [id, name] of Object.entries(cfg.edges)) {
     const g = cell(id);
-    const [line, head] = g.querySelectorAll('path');
+    const [line, ...heads] = g.querySelectorAll('path');
     g.setAttribute('id', `${cfg.prefix}-edge-${name}`);
     g.setAttribute('data-edge', name);
     line.setAttribute('class', 'flow-line');
-    head.setAttribute('class', 'flow-head');
+    heads.forEach((head) => head.setAttribute('class', 'flow-head'));
+    const start = cfg.extendStart && cfg.extendStart[id];
+    if (start) line.setAttribute('d', `M ${start[0]} ${start[1]} L ${line.getAttribute('d').slice(1).trim()}`);
   }
   const layer = cell('1');
   for (const [name, d] of Object.entries(cfg.add.edges)) {
@@ -200,21 +356,25 @@ async function transform(cfg) {
   for (const markup of cfg.add.blocks) layer.appendChild(parse(markup));
   cell(cfg.panel).setAttribute('id', `${cfg.prefix}-panel`);
 
-  // 4. Shrink embedded images: photos to JPEG, anything with transparency stays PNG.
+  // 4. Shrink embedded images to 8 pixels per unit: photos to JPEG, but small labels and
+  //    anything with transparency stay PNG (JPEG would blur them or turn their background black).
   const shrink = async (image) => {
     const href = image.getAttributeNS(XLINK, 'href') || image.getAttribute('href');
     const img = new Image();
     img.src = href;
     await img.decode();
-    const inSymbol = !!image.closest('symbol');
-    const maxW = inSymbol ? 128 : 360;
-    const scale = Math.min(1, maxW / img.naturalWidth);
+    const shownWidth = Number(image.getAttribute('width'));
+    const scale = Math.min(1, (shownWidth * 8) / img.naturalWidth);
     const canvas = document.createElement('canvas');
     canvas.width = Math.round(img.naturalWidth * scale);
     canvas.height = Math.round(img.naturalHeight * scale);
-    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let transparent = false;
+    for (let i = 3; i < data.length && !transparent; i += 4) transparent = data[i] < 250;
     image.removeAttribute('href');
-    image.setAttributeNS(XLINK, 'href', inSymbol ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.85));
+    image.setAttributeNS(XLINK, 'href', transparent || shownWidth < 20 ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.85));
   };
   for (const image of root.querySelectorAll('image')) await shrink(image);
 

@@ -14,18 +14,16 @@
   const HOLD = 0.35; // seconds an arrival stays highlighted
   const GAP = 0.18; // seconds between steps
   const TOKEN_COLOR = '#e8590c';
-  const POSITIVE = '#009900';
   const NEGATIVE = '#990000';
 
-  // Tokens leave a frame block along its arrow, then continue inside the circle to their dot.
-  const CONTRASTIVE_TOKENS = [
-    { color: POSITIVE, then: 'L 264.7 58.7' },
-    { color: NEGATIVE, then: 'L 287.5 58.7', delay: 0.14 },
-  ];
+  // Both frame blocks supply negatives only (Eq. 11 of the paper), so their tokens end at the H^i dot.
+  // The positive y+ comes from the demonstrated future frame (Eq. 10), which this figure does not draw.
+  const NEGATIVE_TOKEN = [{ color: NEGATIVE, then: 'L 287.5 58.7' }];
 
-  // A step can list: edges to draw; `light` or `from` blocks, highlighted while the step runs;
-  // `to` blocks, highlighted on arrival; and `pulse` cells. Blocks and edges a mode never mentions
-  // are dimmed, and `hidden` ones are removed. Steps play one after another, in the order listed.
+  // A step can list: edges to draw; `appear`, edges that show without any data moving along them;
+  // `light` or `from` blocks, highlighted while the step runs; `to` blocks, highlighted on arrival;
+  // and `pulse` cells. Blocks and edges a mode never mentions are dimmed, and `hidden` ones are
+  // removed. Steps play one after another, in the order listed.
   const FIGURES = {
     implicit: {
       src: './static/images/flow/implicit.svg',
@@ -36,13 +34,15 @@
           steps: [
             { light: ['eq-u'], dur: 0.9 },
             { light: ['eq-e'], dur: 0.9 },
-            { edges: ['eq-tok'], from: ['eq-e'], to: ['tokens'], dur: 1.0 },
+            { edges: ['eq-tok'], from: ['eq-e', 'vlm'], to: ['tokens'], dur: 1.0 },
             { edges: ['tok-proj-a', 'tok-proj-b'], from: ['tokens'], to: ['proj', 'eq-z'], dur: 0.6 },
             { edges: ['proj-z'], from: ['proj'], to: ['circle', 'z'], dur: 0.6 },
-            { edges: ['ce-vwm'], from: ['ce'], to: ['vwm'], dur: 1.0 },
+            { light: ['eq-y', 'ypos'], dur: 0.9 },
             { edges: ['vwm-nr'], from: ['vwm', 'synthetic'], to: ['nr'], dur: 1.2 },
-            { edges: ['nr-circle'], tokens: CONTRASTIVE_TOKENS, from: ['nr', 'fenc', 'eq-y'], to: ['ypos', 'yneg'], dur: 1.3 },
-            { edges: ['ce-circle'], tokens: CONTRASTIVE_TOKENS, from: ['ce', 'fenc', 'eq-y'], to: ['ypos', 'yneg'], dur: 1.5 },
+            { edges: ['nr-circle'], tokens: NEGATIVE_TOKEN, from: ['nr', 'fenc'], to: ['yneg'], dur: 1.3 },
+            // World-model rollouts start from the current observation, not from this block (Sec. III-C),
+            // so no data moves along the Cross-Episode -> Video World Model arrow.
+            { appear: ['ce-vwm'], edges: ['ce-circle'], tokens: NEGATIVE_TOKEN, from: ['ce', 'fenc'], to: ['yneg'], dur: 1.5 },
             { edges: ['z-ypos', 'z-yneg'], from: ['z', 'circle'], pulse: ['y-pos', 'y-neg'], dur: 1.6 },
           ],
         },
@@ -50,7 +50,7 @@
           steps: [
             { light: ['eq-u'], dur: 0.9 },
             { light: ['eq-e'], dur: 0.9 },
-            { edges: ['eq-tok'], from: ['eq-e'], to: ['tokens'], dur: 1.0 },
+            { edges: ['eq-tok'], from: ['eq-e', 'vlm'], to: ['tokens'], dur: 1.0 },
             { edges: ['tok-policy'], from: ['tokens'], to: ['policy'], dur: 1.0 },
           ],
         },
@@ -59,11 +59,45 @@
       narrow: {
         query: '(max-width: 600px)',
         viewBox: '8 8 312 304',
-        move: { equations: 'translate(-294 160)', policy: 'translate(-101 27)' },
+        move: { equations: 'translate(-294 160)', policy: 'translate(-101 27)', vlm: 'translate(-49 96)' },
         edges: {
           'eq-tok': 'M 187.6 238 L 300 238 Q 306 238 306 232 L 306 152.4 Q 306 146.4 300 146.4 L 292.9 146.4',
           'tok-policy': 'M 284.2 151.5 L 284.2 177',
         },
+      },
+    },
+    explicit: {
+      src: './static/images/flow/explicit.svg',
+      prefix: 'expl',
+      modes: {
+        training: {
+          hidden: ['policy', 'tok-policy'],
+          steps: [
+            { light: ['eq-q'], dur: 0.9 },
+            { light: ['eq-e'], dur: 0.9 },
+            { edges: ['eq-tok'], from: ['eq-e', 'vlm'], to: ['tokens'], dur: 1.4 },
+            { edges: ['tok-sgad-a', 'tok-sgad-b'], from: ['tokens'], to: ['sgad', 'eq-sgad'], dur: 0.5 },
+            { edges: ['sgad-ghat', 'sgad-shat'], from: ['sgad', 'eq-sgad'], to: ['fs', 'ghat', 'shat'], dur: 1.1 },
+            { edges: ['rgb-geo', 'rgb-pe'], from: ['rgb'], to: ['geo', 'pe', 'eq-t'], dur: 1.2 },
+            { edges: ['geo-g', 'pe-s'], from: ['geo', 'pe', 'eq-t'], to: ['g', 's'], dur: 0.7 },
+            { edges: ['cmp-g', 'cmp-s'], tokens: [], from: ['ghat', 'g', 'shat', 's'], dur: 0.9 },
+            { light: ['eq-l', 'fs'], dur: 1.4 },
+          ],
+        },
+        inference: {
+          steps: [
+            { light: ['eq-q'], dur: 0.9 },
+            { light: ['eq-e'], dur: 0.9 },
+            { edges: ['eq-tok'], from: ['eq-e', 'vlm'], to: ['tokens'], dur: 1.4 },
+            { edges: ['tok-policy'], from: ['tokens'], to: ['policy'], dur: 0.8 },
+          ],
+        },
+      },
+      narrow: {
+        query: '(max-width: 600px)',
+        viewBox: '8 8 280 332',
+        move: { equations: 'translate(-251.1 190.3) scale(0.87)', vlm: 'translate(-97 7)' },
+        edges: { 'eq-tok': 'M 14 250.4 L 14 170 Q 14 164.5 20 164.5 L 38 164.5' },
       },
     },
   };
@@ -87,6 +121,7 @@
       [...(step.light || []), ...(step.from || [])].forEach((b) => mark(b, t, end));
       (step.to || []).forEach((b) => mark(b, end, end + HOLD));
       (step.edges || []).forEach((e) => { plan.edges[e] = { start: t, end, tokens: step.tokens }; });
+      (step.appear || []).forEach((e) => { plan.edges[e] = { start: t, end: t, tokens: [] }; });
       (step.pulse || []).forEach((id) => plan.pulses.push({ id, start: t, end }));
       plan.duration = Math.max(plan.duration, end);
       t = end + GAP;
@@ -113,13 +148,13 @@
     constructor(group) {
       this.group = group;
       this.line = group.querySelector('.flow-line');
-      this.head = group.querySelector('.flow-head');
+      this.heads = [...group.querySelectorAll('.flow-head')];
       this.drawn = this.line.cloneNode();
       this.drawn.setAttribute('class', 'flow-drawn');
       this.line.after(this.drawn);
       const dashes = this.line.getAttribute('stroke-dasharray');
       this.pattern = dashes ? dashes.trim().split(/[\s,]+/).map(Number) : null;
-      this.autoHead = !this.head.hasAttribute('d');
+      this.autoHead = !this.heads[0].hasAttribute('d');
       this.wideD = this.line.getAttribute('d');
       this.tokens = [];
       this.setPath(this.wideD);
@@ -142,7 +177,7 @@
       const ux = (tip.x - prev.x) / 0.5;
       const uy = (tip.y - prev.y) / 0.5;
       const at = (back, side) => `${tip.x - ux * back * size - uy * side * size} ${tip.y - uy * back * size + ux * side * size}`;
-      this.head.setAttribute('d', `M ${tip.x} ${tip.y} L ${at(7, 3.5)} L ${at(5.25, 0)} L ${at(7, -3.5)} Z`);
+      this.heads[0].setAttribute('d', `M ${tip.x} ${tip.y} L ${at(7, 3.5)} L ${at(5.25, 0)} L ${at(7, -3.5)} Z`);
     }
 
     measureToken(token) {
@@ -182,13 +217,14 @@
       this.group.classList.toggle('is-off', state === 'off');
       if (state !== 'on') {
         this.line.style.opacity = '';
-        this.head.style.opacity = '';
+        this.heads.forEach((head) => { head.style.opacity = ''; });
         this.drawn.style.display = 'none';
         this.lastP = null;
         return;
       }
       const span = timing.end - timing.start;
-      let p = 0;
+      // Without a token, the line just draws itself over the step.
+      let p = span > 0 ? smooth(clamp01((t - timing.start) / span)) : 0;
       this.tokens.forEach((token, i) => {
         const u = smooth(clamp01((t - timing.start - token.delay * span) / (span * (1 - token.delay))));
         const inFlight = u > 0 && u < 1;
@@ -206,7 +242,7 @@
         this.drawn.style.display = p > 0 ? '' : 'none';
         if (p > 0) this.drawn.style.strokeDasharray = p >= 1 ? (this.pattern ? this.pattern.join(' ') : 'none') : revealDash(this.pattern, this.length, p);
         this.line.style.opacity = GHOST_OPACITY;
-        this.head.style.opacity = p >= 1 ? 1 : GHOST_OPACITY;
+        this.heads.forEach((head) => { head.style.opacity = p >= 1 ? 1 : GHOST_OPACITY; });
       }
     }
   }
