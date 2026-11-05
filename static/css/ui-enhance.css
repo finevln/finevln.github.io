@@ -1,4 +1,4 @@
-/* Sticky navbar and scrollspy. Loaded after Bulma and index.css so these rules win ties. */
+/* Sticky navbar, scrollspy and reveal on scroll. Loaded after Bulma and index.css so these rules win ties. */
 
 :root {
   --ui-navbar-height: 3.25rem; /* Bulma's navbar height */
@@ -77,5 +77,27 @@ section[id] {
     max-height: calc(100vh - var(--ui-navbar-height));
     max-height: calc(100dvh - var(--ui-navbar-height));
     overflow-y: auto;
+  }
+}
+
+/* Reveal on scroll. Hidden only once the script has set html.js, so the page still shows without
+   JavaScript, and never under reduced motion or in print. Limited to sections because
+   tools/flow-figures/export.js moves a figure out to <body> and films it from the first frame. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.js section .reveal,
+  html.js section .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  html.js section .reveal-stagger > * {
+    transition-delay: var(--ui-reveal-delay, 0ms);
+  }
+
+  html.js section .reveal.is-revealed,
+  html.js section .reveal-stagger.is-revealed > * {
+    opacity: 1;
+    transform: none;
   }
 }
