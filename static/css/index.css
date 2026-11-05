@@ -437,6 +437,108 @@ body {
   color: #475569;
 }
 
+/* Animated method figures (static/js/flow-figures.js) */
+.flow-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.875rem;
+}
+
+.flow-toggle {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: #eef2f7;
+}
+
+.flow-toggle button,
+.flow-replay {
+  min-height: 36px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: #475569;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.flow-toggle button[aria-pressed='true'] {
+  background: #0e7490;
+  color: #fff;
+}
+
+.flow-replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+}
+
+.flow-replay[hidden] {
+  display: none;
+}
+
+.flow-toggle button:hover:not([aria-pressed='true']),
+.flow-replay:hover {
+  color: #0e7490;
+}
+
+.flow-toggle button:focus-visible,
+.flow-replay:focus-visible {
+  outline: 2px solid #0e7490;
+  outline-offset: 2px;
+}
+
+.flow-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.flow-svg .is-hidden {
+  display: none;
+}
+
+.flow-svg .is-off {
+  opacity: 0.25;
+  filter: grayscale(1);
+}
+
+.flow-svg .flow-block.is-active .flow-shape {
+  stroke: #e8590c;
+  stroke-width: 1.75;
+}
+
+.flow-svg .flow-eq-hl {
+  fill: transparent;
+}
+
+.flow-svg .flow-eq-hl.is-active {
+  fill: #ffe8cc;
+}
+
+.flow-svg[data-mode='inference'] .flow-flame {
+  display: none;
+}
+
+.flow-svg .flow-token {
+  stroke: #fff;
+  stroke-width: 0.7;
+}
+
+.flow-svg .flow-pulse {
+  fill: none;
+  stroke-width: 1.2;
+}
+
 .qual-model-section {
   margin-bottom: 2.75rem;
   padding: 1.25rem 1.25rem 1rem;
