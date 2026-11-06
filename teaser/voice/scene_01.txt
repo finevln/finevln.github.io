@@ -1,0 +1,1 @@
+Vision-language navigation policies need a demonstration for every new route. Cut the demonstrations by thirty percent, and success drops by nearly twenty points.

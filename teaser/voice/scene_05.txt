@@ -1,0 +1,1 @@
+Second: which future is consistent with the route? An implicit future token learns the future the route actually reaches, against same-scene hard negatives from a fine-tuned video world model.

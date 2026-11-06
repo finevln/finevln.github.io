@@ -1,0 +1,80 @@
+1
+00:00:00,000 --> 00:00:05,063
+Vision-language navigation policies need a
+demonstration for every new route.
+
+2
+00:00:05,063 --> 00:00:09,600
+Cut the demonstrations by 30%, and success
+drops by nearly 20 points.
+
+3
+00:00:09,700 --> 00:00:14,872
+Yet each demonstration already shows the
+future: which landmark comes next,
+
+4
+00:00:14,872 --> 00:00:17,700
+what it looks like, and its 3D structure.
+
+5
+00:00:17,800 --> 00:00:22,200
+FINE turns this future into a teacher,
+used only during training.
+
+6
+00:00:22,300 --> 00:00:24,150
+First: what should appear next?
+
+7
+00:00:24,150 --> 00:00:28,207
+Explicit landmark tokens follow the
+instruction's ordered landmarks,
+
+8
+00:00:28,207 --> 00:00:33,100
+and predict the future landmark region in
+semantic and 3D geometric feature space.
+
+9
+00:00:33,200 --> 00:00:36,463
+Second: which future is consistent with
+the route?
+
+10
+00:00:36,463 --> 00:00:41,032
+An implicit future token learns the future
+the route actually reaches,
+
+11
+00:00:41,032 --> 00:00:45,600
+against same-scene hard negatives from a
+fine-tuned video world model.
+
+12
+00:00:45,700 --> 00:00:50,254
+At deployment, these branches are dropped:
+no future frames, no rollouts,
+
+13
+00:00:50,254 --> 00:00:52,500
+and only 5 milliseconds of overhead.
+
+14
+00:00:52,600 --> 00:01:01,176
+FINE raises success by 2.6 points on
+R2R-CE and 4.5 on RxR-CE.
+
+15
+00:01:01,176 --> 00:01:07,400
+With 70% of the data, the gain is 6.8
+points.
+
+16
+00:01:07,500 --> 00:01:13,298
+On a real humanoid, gains are largest with
+hidden landmarks: 30 success points,
+
+17
+00:01:13,298 --> 00:01:15,500
+and 20 on room-to-room routes.
