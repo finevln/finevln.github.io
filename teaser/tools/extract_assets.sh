@@ -4,7 +4,16 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 ROOT=..
-mkdir -p build/img build/seq
+mkdir -p build/img build/seq build/fonts
+
+font() { # Google Fonts family, output. Listing the glyphs returns one file; the plain latin subset has no arrow.
+  local css
+  css=$(curl -sfG -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36" "https://fonts.googleapis.com/css2" \
+    --data-urlencode "family=$1:wght@400..700" --data-urlencode "text=$(printf '%s' ' !"#$%&'"'"'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~·×−→“”‘’–—')")
+  curl -sf -o "build/fonts/$2" "$(grep -oE 'https://[^)]+' <<<"$css" | head -1)"
+}
+font "Google Sans" GoogleSans.woff2
+font "Noto Sans" NotoSans.woff2
 
 raster() { # svg, output, width, height, scale
   node -e "

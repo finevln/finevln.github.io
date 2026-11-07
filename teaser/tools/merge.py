@@ -118,8 +118,8 @@ def main():
             audio_args += ["-i", f"voice/scene_{i + 1:02d}.wav"]
         for i, start in enumerate(starts):
             chain.append(f"[{len(scenes) + i}:a]adelay={int(start * 1000)}:all=1[a{i}]")
-        chain.append("".join(f"[a{i}]" for i in range(len(scenes))) + f"amix=inputs={len(scenes)}:normalize=0[voice]")
-        maps += ["-map", "[voice]", "-c:a", "aac", "-b:a", "192k"]
+        chain.append("".join(f"[a{i}]" for i in range(len(scenes))) + f"amix=inputs={len(scenes)}:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[voice]")
+        maps += ["-map", "[voice]", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2"]
     run(*inputs, *audio_args, "-filter_complex", ";".join(chain), *maps, *ENCODE, "out/FINE_teaser.mp4")
 
     audio_copy = ["-c:a", "copy"] if voiced else []
